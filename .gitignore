@@ -4,3 +4,9 @@ test.*
 
 # Log folder
 logs
+
+# Vendor folder
+vendor
+
+# Composer lock
+composer.lock

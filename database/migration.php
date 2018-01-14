@@ -1,7 +1,7 @@
 <?php
 
-use Model\Db;
-use Model\Table;
+use SnooPHP\Model\Db;
+use SnooPHP\Model\Table;
 
 /******************
  * MIGRATION SCRIPT

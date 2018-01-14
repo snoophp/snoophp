@@ -1,10 +1,10 @@
 <?php
 
-require __DIR__."/../autoloader.php";
+require_once __DIR__."/../bootstrap.php";
 
-use Http\Router;
-use Http\Request;
-use Http\Response;
+use SnooPHP\Http\Router;
+use SnooPHP\Http\Request;
+use SnooPHP\Http\Response;
 
 /***************
  * Parse request

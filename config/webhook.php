@@ -3,7 +3,7 @@
 /***********************
  * WEBHOOK CONFIGURATION
  ***********************/
-use Http\Router;
+use SnooPHP\Http\Router;
 
 /**
  * @var array $webhookConfig webhook configuration array

@@ -1,5 +1,11 @@
 <?php
 
+require_once __DIR__."/vendor/autoload.php";
+
+/***********************
+ * APPLICATION BOOTSTRAP
+ ***********************/
+
 /**
  * Load given class from base directory
  * 
@@ -27,16 +33,6 @@ function autoload($className, $baseDir)
 }
 
 /**
- * Autoloader for framework libraries
- * 
- * @param string	$className	name of the class to load
- */
-function libAutoloader($className)
-{
-	autoload($className, "/lib");
-}
-
-/**
  * Autoloader for application classes
  * 
  * @param string	$className	name of the class to load
@@ -47,10 +43,9 @@ function appAutoloader($className)
 }
 
 // Register autoloaders
-spl_autoload_register("libAutoloader");
 spl_autoload_register("appAutoloader");
 
-use Http\Router;
+use SnooPHP\Http\Router;
 
 /**
  * @var Router[] $routers set of routers

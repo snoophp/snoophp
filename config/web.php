@@ -1,8 +1,8 @@
 <?php
 
-use Http\Router;
-use Http\Request;
-use Http\Response;
+use SnooPHP\Http\Router;
+use SnooPHP\Http\Request;
+use SnooPHP\Http\Response;
 
 /********************
  * APPLICATION ROUTES
@@ -21,7 +21,7 @@ $router->errorAction(function($request) {
 
 /* Home page */
 $router->get("/", function($request) {
-
+	
 	return Response::json([
 		"message"	=> "Hello World!"
 	]);

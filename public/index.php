@@ -55,6 +55,6 @@ if ($request = Request::current())
 }
 
 // Flush errors
-\Utils::flushErrors();
+\SnooPHP\Utils::flushErrors();
 
 exit;

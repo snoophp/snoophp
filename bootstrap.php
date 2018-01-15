@@ -68,3 +68,6 @@ function register_router(Router $router)
 
 // Include configs
 foreach (glob(__DIR__."/config/*.php") as $configFile) require_once $configFile;
+
+// Global constants
+define("ROOT_DIR", realpath(__DIR__));

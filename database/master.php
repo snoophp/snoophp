@@ -13,7 +13,7 @@ use SnooPHP\Model\Table;
  *********************/
 // <--
 
-/************
+/**************
  * RUN SCRIPT
  * 
  * don't modify

@@ -1,5 +1,3 @@
-
-
 <p align="center"><img src="https://image.ibb.co/mHMgrm/snoophp.png" width="80"></p>
 
 # SnooPHP

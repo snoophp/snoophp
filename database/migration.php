@@ -58,7 +58,7 @@ function migrate_all($schema = "master")
 			echo "all ok ... saving migration\n";
 
 			$data = serialize($table);
-			if (!file_exists(dirname($migrationFile))) mkdir(dirname($migrationFile));
+			if (!file_exists(dirname($migrationFile))) mkdir(dirname($migrationFile), 0770, true);
 			file_put_contents($migrationFile, $data);
 		}
 		else

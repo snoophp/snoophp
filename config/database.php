@@ -12,7 +12,7 @@ $dbConfig = [
 		"host"		=> "localhost",
 		"schema"	=> "snoophp",
 		"username"	=> "snoophp",
-		"password"	=> "Charlie00"
+		"password"	=> "xxxxxxxx"
 	]
 ];
 
@@ -22,7 +22,8 @@ foreach ($dbConfig as $dbName => $dbInfo)
 	$GLOBALS["db".ucwords($dbName)] = new \PDO(
 		"mysql:dbname=".$dbInfo["schema"].";dbhost=".$dbInfo["host"],
 		$dbInfo["username"],
-		$dbInfo["password"]
+		$dbInfo["password"],
+		isset($dbInfo["params"]) ? $dbInfo["params"] : []
 	);
 
 	$db = $GLOBALS["dbMaster"];

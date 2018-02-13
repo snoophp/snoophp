@@ -162,7 +162,7 @@ function process_table(Table $newTable, Table $oldTable)
 				$new = false;
 
 				// Check if changed
-				$changed = $newColumn != $oldColumn;
+				$changed = $newColumn != $oldColumn || $newColumn->declaration() !== $oldColumn->declaration();
 
 				break;
 			}
@@ -208,7 +208,7 @@ function process_table(Table $newTable, Table $oldTable)
 			if ($newColumn->property("primary")) $constraints[] = "add constraint PK_".$tableName."_".$name." primary key (".$name.")";
 			if ($newColumn->property("foreign")) $constraints[] = "add constraint FK_".$tableName."_".$name." foreign key (".$name.") references ".$foreign["table"]."(".$foreign["column"].")".($foreign["onDelete"] ? " on delete ".$foreign["onDelete"] : "").($foreign["onUpdate"] ? " on update ".$foreign["onUpdate"] : "");
 			
-			$status &= Db::query("alter table ".$newTable->name()." ".implode(", ", array_merge([$query], $constraints))) !== false;
+			$status &= Db::query("alter table ".$newTable->name()." change {$newColumn->name()} ".implode(", ", array_merge([$query], $constraints))) !== false;
 		}
 	}
 

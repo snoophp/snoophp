@@ -10,3 +10,6 @@ vendor
 
 # Composer lock
 composer.lock
+
+# Migrated tables
+database/migrated

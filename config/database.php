@@ -8,12 +8,12 @@
  * @var array $dbConfig array containing database configuration
  */
 $dbConfig = [
-	"master"	=> [
+	/* "master"	=> [
 		"host"		=> "localhost",
 		"schema"	=> "snoophp",
 		"username"	=> "snoophp",
 		"password"	=> "xxxxxxxx"
-	]
+	] */
 ];
 
 // Create database for each config

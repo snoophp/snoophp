@@ -6,8 +6,14 @@
 
 /**
  * @var array $env list of environment variables
+ * 
+ * Available configurations:
+ * @param bool	merge_blocks	merge script and style blocks after body in two single blocks
+ * @param bool	compile_less	process less stylesheet server-side in vue components
  */
-$env = [];
+$env = [
+	"css_pp"	=> "lessc"
+];
 
 if (!function_exists("env"))
 {

@@ -306,6 +306,9 @@ function process_table(Table $newTable, Table $oldTable)
 				$foreignChain = [];
 			}
 		}
+
+		// Commit or rollback
+		return $status && ($status ? Db::commit() : Db::rollBack());
 	}
 
 	// Dropped columns

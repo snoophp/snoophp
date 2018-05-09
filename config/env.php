@@ -20,13 +20,14 @@ if (!function_exists("env"))
 	/**
 	 * Retrieve an environment variable
 	 * 
-	 * @param string $name name fo the variable
+	 * @param string	$name		name of the variable
+	 * @param mixed		$default	default value
 	 * 
 	 * @return mixed
 	 */
-	function env($name)
+	function env($name, $default = null)
 	{
 		global $env;
-		return isset($env[$name]) ? $env[$name] : null;
+		return isset($env[$name]) ? $env[$name] : $default;
 	}
 }

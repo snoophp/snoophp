@@ -12,7 +12,7 @@
  * @param bool	compile_less	process less stylesheet server-side in vue components
  */
 $env = [
-	"css_pp"	=> "lessc"
+	"env"	=> "development"
 ];
 
 if (!function_exists("env"))

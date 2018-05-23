@@ -59,15 +59,18 @@ $routers = [];
  * 
  * @return Router
  */
-function register_router(Router $router)
+if (!function_exists("register_router"))
 {
-	global $routers;
-	$routers[] = $router;
-	return $router;
+	function register_router(Router $router)
+	{
+		global $routers;
+		$routers[] = $router;
+		return $router;
+	}
 }
-
-// Include configs
-foreach (glob(__DIR__."/config/*.php") as $configFile) require_once $configFile;
 
 // Global constants
 define("ROOT_DIR", realpath(__DIR__));
+
+// Include configs
+foreach (glob(__DIR__."/config/*.php") as $configFile) require_once $configFile;

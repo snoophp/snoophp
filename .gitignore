@@ -1,4 +1,4 @@
-# Test folder and files
+# All test folders and files
 test
 test.*
 
@@ -7,9 +7,3 @@ logs
 
 # Vendor folder
 vendor
-
-# Composer lock
-composer.lock
-
-# Migrated tables
-database/migrated

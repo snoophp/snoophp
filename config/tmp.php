@@ -25,5 +25,6 @@ $router->errorAction(function($request) {
 /* Session script */
 $router->get("/{file}", function($request, $args) {
 
+	error_log($args["file"]);
 	return Response::resource("tmp/{$args["file"]}");
 });

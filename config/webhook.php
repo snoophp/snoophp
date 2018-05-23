@@ -15,7 +15,7 @@ $webhookConfig = [
 		"192.30.252.0/22",
 		"185.199.108.0/22"
 	],
-	"stron_ip_validation"	=> false,
+	"strong_ip_validation"	=> false,
 	"rep_id"				=> 102726072,
 	"branch"				=> "master",
 	"script"				=> __DIR__."/../webhook.sh",

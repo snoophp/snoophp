@@ -1,12 +1,13 @@
 #!/bin/sh
-echo "starting ..."
 DATE=$(date +%Y-%m-%dT%H:%M:%S)
 LOG_ID=$1
 LOG_EXT=".log"
-LOG_DIR="$(dirname $0)/log/webhook"
+LOG_DIR="$(dirname $0)/logs/webhook"
 LOG_FILE="$LOG_DIR/$LOG_ID$LOG_EXT"
 
-echo "/********************************************"	>> $LOG_FILE
+echo "starting script ..."
+
+echo "/********************************************"	> $LOG_FILE
 echo " * id:   $LOG_ID"									>> $LOG_FILE
 echo " * time: $DATE"									>> $LOG_FILE
 echo " ********************************************/"	>> $LOG_FILE

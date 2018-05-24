@@ -7,6 +7,8 @@ use SnooPHP\Model\Table;
  * MIGRATION SCRIPT
  ******************/
 
+// Terminal colors
+
 /**
  * @var Table[] $tables list of tables registered for migration
  */
@@ -30,6 +32,8 @@ function migrate_all($schema = "master")
 	// Compute dependencies to avoid conflicts
 	$tables = compute_dependencies($tables);
 
+	echo "> starting migration ...\n";
+
 	foreach($tables as $table)
 	{
 		$name			= $table->name();
@@ -45,7 +49,7 @@ function migrate_all($schema = "master")
 		// Run migration process
 		if ($filename = realpath($migrationFile))
 		{
-			echo "processing existing table '$name':\n";
+			echo "> processing existing table \e[1;37m'$name'\e[0m:\n";
 
 			$old	= unserialize(read_file($filename));
 			$status	= $table->migrate($old, $schema);
@@ -53,7 +57,7 @@ function migrate_all($schema = "master")
 		// Else create new table
 		else
 		{
-			echo "creating new table '".$name."':\n";
+			echo "> creating new table \e[1;37m'$name'\e[0m:\n";
 			echo "\n{$table->createQuery()}\n\n";
 			
 			$status = $table->create($schema);
@@ -61,26 +65,27 @@ function migrate_all($schema = "master")
 
 		if ($status)
 		{
-			echo "All ok. Saving migration file\n";
+			echo "\e[1;32m✓\e[0m all ok\n";
+			echo "> saving migration file\n";
 
 			if (write_file($migrationFile, $table, true, true))
 			{
 				// Commit changes
 				Db::commit($schema);
-				echo "Migration saved at $migrationFile";
+				echo "\e[1;32m✓\e[0m migration saved at $migrationFile\n";
 			}
 			else
 			{
 				// Undo all changes
 				Db::rollback($schema);
-				echo "error while saving migration; changes to table not applied";
+				echo "\e[1;31m!\e[0m error while saving migration; changes to table not applied\n";
 			}
 		}
 		else
 		{
 			// Undo all changes to database
 			Db::rollback($schema);
-			echo "something went wrong, check table definition\n";
+			echo "\e[1;31m!\e[0m something went wrong, check table definition\n";
 		}
 	}
 }
@@ -111,17 +116,17 @@ function drop_all($schema = "master")
 		// Compute reverse dependencies order
 		$migrations = array_reverse(compute_dependencies($migrations));
 
-		echo "dropping tables ...\n";
+		echo "> dropping tables ...\n";
 
 		foreach($migrations as $migration)
 		{
-			echo " # ".$migration->name()."\n";
+			echo "    ➤ ".$migration->name()."\n";
 			$tableNames[] = $migration->name();
 		}
 
 		// Begin transaction
 		Db::beginTransaction();
-		$status = Db::query("drop table if exists ".implode(", ", $tableNames)) !== false;
+		$status = Db::query("drop table if exists ".implode(",", $tableNames)) !== false;
 
 		if ($status)
 		{
@@ -130,14 +135,14 @@ function drop_all($schema = "master")
 
 			// Commit changes
 			Db::commit();
-			echo "tables dropped\n\n";
+			echo "\e[1;32m✓\e[0m tables dropped\n\n";
 			return true;
 		}
 		else
 		{
 			// Undo all changes
 			Db::rollback();
-			echo "something went wrong ...\n";
+			echo "\e[1;31m!\e[0m something went wrong ...\n\n";
 			return false;
 		}
 	}
@@ -172,7 +177,7 @@ function reset_all($schema = "master")
  */
 function compute_dependencies(array $tables)
 {
-	echo "computing tables dependencies ...\n";
+	echo "> computing tables dependencies ...\n";
 
 	/**
 	 * @todo should check for missing references and circular dependencies
@@ -185,14 +190,15 @@ function compute_dependencies(array $tables)
 			if (!$table->dependent())
 			{
 				$order[] = $table;
-				echo "\t- {$table->name()}\n";
+				echo "    ➤ {$table->name()}\n";
 
 				unset($tables[$i]);
 				foreach ($tables as $t) $t->removeDependency($table->name());
 			}
 
 	// Return new order
-	echo "dependencies computed!\n";
+	echo "\e[1;32m✓\e[0m dependencies computed!\n";
+	echo "------------------------\n";
 	return $order;
 }
 

@@ -2,6 +2,7 @@
 
 require_once __DIR__."/../bootstrap.php";
 
+use SnooPHP\Utils\Utils;
 use SnooPHP\Http\Router;
 use SnooPHP\Http\Request;
 use SnooPHP\Http\Response;
@@ -55,6 +56,6 @@ if ($request = Request::current())
 }
 
 // Flush errors
-\SnooPHP\Utils::flushErrors();
+Utils::flushErrors();
 
 exit;

@@ -1,31 +1,98 @@
 #!/bin/sh
+
+#----------------------------------------
+# Variables
+
 DATE=$(date +%Y-%m-%dT%H:%M:%S)
 LOG_ID=$1
 LOG_EXT=".log"
 LOG_DIR="$(dirname $0)/logs/webhook"
 LOG_FILE="$LOG_DIR/$LOG_ID$LOG_EXT"
 
+#----------------------------------------
+# Functions
+
+# Exit and write to log file
+#
+# $1	error message
+err () {
+
+	if [ -d "$LOG_DIR" ]; then
+		echo "err: $1" >> $LOG_FILE
+	else
+		echo "$1" >&2
+	fi
+
+	# Exit script
+	exit 1
+}
+
+# Write to to log file
+#
+# $1	log content
+log () {
+
+	if [ -d "$LOG_DIR" ]; then
+		echo "$1" >> $LOG_FILE
+	else
+		echo "$1"
+	fi
+}
+
+# Reset repo to last commit
+# Also deletes redundant files
+#
+# $1	active branch
+sync () {
+
+	branch="$1"
+
+	# Run git
+	git fetch origin
+	status=$(git reset --hard "origin/$branch") \
+	|| err "could not reset origin/$branch"
+	log "$status"
+
+	# Clean redundant files and directories
+	git clean -df
+	log "cleaning project ..."
+}
+
+# Create log directory if doesn't exist
+create_log_dir () {
+
+	if [ ! -d "$LOG_DIR" ]; then
+		echo "creating log directory at $LOG_DIR"
+		mkdir -p "$LOG_DIR"
+	fi
+}
+
+#----------------------------------------
+# Run
+
 echo "starting script ..."
 
-echo "/********************************************"	> $LOG_FILE
-echo " * id:   $LOG_ID"									>> $LOG_FILE
-echo " * time: $DATE"									>> $LOG_FILE
-echo " ********************************************/"	>> $LOG_FILE
+# Create log dir if doesn't exist
+create_log_dir
 
-echo "\n"												>> $LOG_FILE
+# Set log filename
+: "${LOG_ID:=$DATE}"
 
-echo "/*"												>> $LOG_FILE
-echo " * Update repository"								>> $LOG_FILE
-echo " */"												>> $LOG_FILE
-git fetch origin										>> $LOG_FILE
-git reset --hard origin/$2								>> $LOG_FILE
-git clean -df											>> $LOG_FILE
+log "------------------------------"
+log "id:   $LOG_ID"
+log "time: $DATE"
+log "------------------------------"
 
-echo "\n"												>> $LOG_FILE
+log "\n"
 
-echo "/*"												>> $LOG_FILE
-echo " * Working directory"								>> $LOG_FILE
-echo " */"												>> $LOG_FILE
+# Sync repo to last commit
+sync "$2"
 
-ls -l													>> $LOG_FILE
+log "\n"
+
+# Print current work dir
+log "=============================="
+log "Working directory:"
+log $(ls -l)
+
 echo "completed!"

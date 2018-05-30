@@ -15,6 +15,9 @@ $env = [
 	"env"	=> "development"
 ];
 
+/***************
+ * DO NOT MODIFY
+ ***************/
 if (!function_exists("env"))
 {
 	/**

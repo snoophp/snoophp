@@ -6,6 +6,7 @@ use SnooPHP\Utils\Utils;
 use SnooPHP\Http\Router;
 use SnooPHP\Http\Request;
 use SnooPHP\Http\Response;
+use SnooPHP\Http\AbortRouteException;
 
 /***************
  * Parse request
@@ -15,12 +16,20 @@ if ($request = Request::current())
 	$notFound = true;
 	foreach ($routers as $router)
 	{
-		$response = $router->handle($request);
-		if ($response !== false)
+		try
+		{
+			$response = $router->handle($request);
+			if ($response !== false)
+			{
+				$notFound = false;
+				if ($response) $response->parse();
+				break;
+			}
+		}
+		catch (AbortRouteException $e)
 		{
 			$notFound = false;
-			if ($response) $response->parse();
-			break;
+			if ($res = $e->response()) $res->parse();
 		}
 	}
 
@@ -34,9 +43,7 @@ if ($request = Request::current())
 			$pattern	= "@^".$base."(?:/[^/]*)*$@";
 
 			if (empty($base) && $match == null && $router->errorAction() !== null)
-			{
 				$match = $router;
-			}
 			else if (preg_match($pattern, $request->url()) && $router->errorAction() !== null)
 			{
 				$match = $router;
@@ -45,13 +52,9 @@ if ($request = Request::current())
 		}
 
 		if ($match)
-		{
-			$match->errorAction()($request)->parse();
-		}
+			$match->onError($request)->parse();
 		else
-		{
 			Response::abort(404);
-		}
 	}
 }
 

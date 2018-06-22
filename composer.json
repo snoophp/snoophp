@@ -15,6 +15,6 @@
         }
 	],
     "require": {
-        "snoophp/framework": "*"
+        "snoophp/framework": ">=0.2.7"
     }
 }

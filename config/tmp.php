@@ -23,7 +23,7 @@ $router->errorAction(function($request) {
 });
 
 /* Session script */
-$router->get("/{file}+", function($request, $args) {
+$router->get("/tmp/{file}+", function($request, $args) {
 
 	return Response::resource("tmp/{$args["file"]}");
 });

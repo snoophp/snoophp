@@ -16,20 +16,12 @@ if ($request = Request::current())
 	$notFound = true;
 	foreach ($routers as $router)
 	{
-		try
-		{
-			$response = $router->handle($request);
-			if ($response !== false)
-			{
-				$notFound = false;
-				if ($response) $response->parse();
-				break;
-			}
-		}
-		catch (AbortRouteException $e)
+		$response = $router->handle($request);
+		if ($response !== false)
 		{
 			$notFound = false;
-			if ($res = $e->response()) $res->parse();
+			if ($response) $response->parse();
+			break;
 		}
 	}
 
@@ -51,10 +43,7 @@ if ($request = Request::current())
 			}
 		}
 
-		if ($match)
-			$match->onError($request)->parse();
-		else
-			Response::abort(404);
+		if ($match) $match->onError($request)->parse();
 	}
 }
 

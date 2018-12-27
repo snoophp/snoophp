@@ -11,7 +11,6 @@ use SnooPHP\Model\Migration;
  * Here you can define
  * the master database
  *********************/
-// <-- Table definitions
 
 $tables = [
 	/**
@@ -24,5 +23,4 @@ $tables = [
  * 
  * don't modify
  **************/
-$migration = new Migration(basename($argv[0], ".php"), $tables);
-for ($i = 1; $i < $argc; $i++) $migration->run($argv[$i]);
+new Migration($argv, $tables);

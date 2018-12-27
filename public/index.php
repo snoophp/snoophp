@@ -34,9 +34,9 @@ if ($request = Request::current())
 			$base		= rtrim($router->base(), "\/");
 			$pattern	= "@^".$base."(?:/[^/]*)*$@";
 
-			if (empty($base) && $match == null && $router->errorAction() !== null)
+			if (empty($base) && $match == null && $router->error() !== null)
 				$match = $router;
-			else if (preg_match($pattern, $request->url()) && $router->errorAction() !== null)
+			else if (preg_match($pattern, $request->url()) && $router->error() !== null)
 			{
 				$match = $router;
 				break;

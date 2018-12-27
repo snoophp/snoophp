@@ -20,13 +20,29 @@ $dbConfig = [
 	] */
 ];
 
+/**************
+ * DON'T MODIFY
+ **************/
+
 // Create database for each config
 foreach ($dbConfig as $dbName => $dbInfo)
 {
 	try
 	{
+		if (isset($dbInfo["credentials"]))
+		{
+			// Read credentials from JSON if applicable
+			$creds	= from_json(read_file($dbInfo["credentials"]), true);
+			$dbInfo	= array_merge($dbInfo, $creds);
+
+			// Update config
+			$dbConfig[$dbName] = $dbInfo;
+			unset($dbConfig[$dbName]["credentials"]);
+		}
+
+		// Create DB interface
 		$GLOBALS["db".ucwords($dbName)] = new PDO(
-			"{$dbInfo["dns"]}:host={$dbInfo["host"]};dbname={$dbInfo["schema"]}",
+			"{$dbInfo["protocol"]}:host={$dbInfo["host"]};dbname={$dbInfo["schema"]}",
 			$dbInfo["username"],
 			$dbInfo["password"],
 			$dbInfo["params"] ?? []

@@ -1,9 +1,14 @@
-# All test folders and files
-test
-test.*
+# All test folders and files --------------------
+test*
 
-# Log folder
-logs
+# Log folder ------------------------------------
+/logs/
 
-# Vendor folder
-vendor
+# Vendor folder ---------------------------------
+/vendor/
+
+# Private folder --------------------------------
+/private/
+
+# Bitpocket -------------------------------------
+/.bitignore
